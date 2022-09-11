@@ -12,12 +12,29 @@ def index():
     }
 
 
+@app.errorhandler(400)
+def bad_request(error):
+    return {
+        "status_code": 400,
+        "error": error,
+        "message": "Client side error!"
+    }, 400
+
+
 @app.errorhandler(404)
 def not_found(error):
     return {
         "status_code": 404,
         "message": "URL not found"
     }, 404
+
+
+@app.errorhandler(405)
+def method_not_allowed(error):
+    return {
+        "status_code": 405,
+        "message": "Request method not allowed!"
+    }, 405
 
 
 @app.errorhandler(500)
