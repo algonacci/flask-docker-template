@@ -16,7 +16,6 @@ def index():
 def bad_request(error):
     return {
         "status_code": 400,
-        "error": error,
         "message": "Client side error!"
     }, 400
 
