@@ -1,10 +1,12 @@
 import os
 from flask import Flask
+from flask_cors import cross_origin
 
 app = Flask(__name__)
 
 
 @app.route("/")
+@cross_origin()
 def index():
     return {
         "status_code": 200,
