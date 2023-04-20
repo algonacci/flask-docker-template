@@ -34,7 +34,7 @@ def index():
 def post():
     if request.method == "POST":
         input = request.get_json()
-        return jsonify(input)
+        return jsonify(input), 200
     else:
         return
 
