@@ -1,14 +1,19 @@
 import json
 import uuid
-
+import pytest
 from dotenv import dotenv_values
-
-from app import app
+from app import create_app
 
 config = dotenv_values(".env")
 
 
-def test_index_route():
+@pytest.fixture
+def app():
+    app = create_app()
+    yield app
+
+
+def test_index_route(app):
     response = app.test_client().get("/")
     res = json.loads(response.data.decode("utf-8"))
     assert response.status_code == 200
@@ -17,20 +22,16 @@ def test_index_route():
     assert res["status"]["message"] == "Success fetching the API!"
 
 
-def test_post_route_without_authorization():
-    payload = {
-        "test": "test"
-    }
+def test_post_route_without_authorization(app):
+    payload = {"test": "test"}
     response = app.test_client().post("/post", json=payload)
     res = json.loads(response.data.decode("utf-8"))
     assert response.status_code == 401
     assert type(res) is dict
 
 
-def test_post_route_with_authorization():
-    payload = {
-        "test": "test"
-    }
+def test_post_route_with_authorization(app):
+    payload = {"test": "test"}
     token = config["SECRET_KEY"]
     response = app.test_client().post("/post",
                                       json=payload,
@@ -40,7 +41,7 @@ def test_post_route_with_authorization():
     assert type(res) is dict
 
 
-def test_not_found_route():
+def test_not_found_route(app):
     response = app.test_client().get(str(uuid.uuid4()))
     assert response.status_code == 404
     res = json.loads(response.data.decode('utf-8'))
@@ -49,7 +50,7 @@ def test_not_found_route():
     assert res["status"]["message"] == "URL not found!"
 
 
-def test_method_not_allowed_route():
+def test_method_not_allowed_route(app):
     response = app.test_client().get("/post")
     assert response.status_code == 405
     res = json.loads(response.data.decode('utf-8'))
