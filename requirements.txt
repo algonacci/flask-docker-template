@@ -6,6 +6,7 @@ Deprecated==1.2.14
 Flask==3.0.2
 Flask-Caching==2.1.0
 Flask-Cors==4.0.0
+Flask-HTTPAuth==4.8.0
 Flask-Limiter==3.5.1
 flask-smorest==0.43.0
 gunicorn==21.2.0
