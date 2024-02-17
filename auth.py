@@ -10,8 +10,9 @@ def unauthorized():
     return {
         "status": {
             "code": 401,
-            "msg": "Unauthorized Access!"
-        }
+            "message": "Unauthorized Access!"
+        },
+        "data": None,
     }, 401
 
 
