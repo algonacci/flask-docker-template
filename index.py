@@ -11,7 +11,7 @@ bp = Blueprint("index",
 
 
 @bp.route("/")
-@limiter.limit("10 per day")
+@limiter.limit("5 per day")
 @cache.cached(timeout=60)
 def index():
     return jsonify({
